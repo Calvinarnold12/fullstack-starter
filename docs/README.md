@@ -8,37 +8,6 @@ configuring, and deploying the application on an AWS EC2 instance.
 - [Deployment Guide (Docker)](deploy-docker/README.md)
 - [Deployment Guide (Manual)](deploy-node/README.md)
 
-## Quick Start
-
-These are instructions to quickly get the application up and running using
-Docker. To push Docker images to Docker Hub, please refer to the [Deployment Guide (Docker)](deploy-docker/README.md)
-for detailed steps regarding Docker Hub authentication and image management.
-
-To quickly get started with the application using Docker, follow these steps:
-1. Clone the repository:
-   ```bash
-   git clone
-    ```
-2. Navigate to the project directory
-3. Build and start the application with the `dev.sh` script:
-   ```bash
-    ./dev.sh build
-
-### Validate Setup
-
-Before deploying, you can validate each part independently:
-
-```bash
-# Docker Hub authentication
-./dev.sh docker
-
-# EC2 SSH connectivity and env check (writes ec2-ssh.sh)
-./dev.sh ec2
-
-# Or run both together
-./dev.sh login
-```
-
 ## Technology Stack
 
 - Backend technology stack

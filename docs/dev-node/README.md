@@ -46,10 +46,11 @@ running the application. The project provides the following npm scripts:
 
 ## Build Script
 
-A `dev.sh` script is provided at the root of the repository to simplify common
-tasks such as building the application, running tests, and cleaning up files. You
-can run the script with different commands as arguments. For example, to build
-the application, run:
+If you have Docker installed and want to use it for building and managing the
+application, a `dev.sh` script is provided at the root of the repository to
+simplify common tasks such as building the application, running tests, and
+cleaning up files. You can run the script with different commands as arguments.
+For example, to build the application, run:
 ```bash
 ./dev.sh build
 ```
@@ -57,19 +58,6 @@ the application, run:
 To see all available commands, run:
 ```bash
 ./dev.sh help
-```
-
-Validation commands (for Docker/EC2 deployment readiness):
-
-```bash
-# Check Docker Hub authentication
-./dev.sh docker
-
-# Check EC2 SSH connectivity and required env vars
-./dev.sh ec2
-
-# Or run both in one go
-./dev.sh login
 ```
 
 ## Local Machine (Unsupported)
