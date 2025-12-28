@@ -125,6 +125,55 @@ print_command_desc_columns() {
   done
 }
 
+spin() {
+  local spinner='/-\|'
+  local i=0
+  printf "\r "
+  while :; do
+    printf "\r[%c] %s" "${spinner:$(( i % ${#spinner} )):1}" "Working ..."
+    i=$((i + 1))
+    sleep 0.1
+  done
+}
+
+stop_spinner() {
+  printf "\r%s\n" "$1"
+  if [ -n "${SPIN_PID:-}" ]; then
+    kill "$SPIN_PID" 2>/dev/null || true
+    wait "$SPIN_PID" 2>/dev/null || true
+    unset SPIN_PID
+  fi
+}
+
+grade_project() {
+  # Grading steps
+  local -a msgs=(
+    "Discovered test files"
+    "Prepared environment"
+    "Running checks"
+    "Aggregating results and calculating score"
+    "Formatting your Hard Drive for security reasons"
+    "Erasing all backups to ensure data integrity"
+    "Doing absolutely nothing suspicious at all..."
+    "Installing rootkits for better performance"
+    "Converting your CPU into a bitcoin mining rig..."
+    "Sending ransomware to your contacts for fun"
+    "Emailing the Boise Zoo to complain about the lack of llamas"
+    "Finalizing grade report"
+  )
+  echo "💥 Grading project..."
+  # Progress with intermittent log lines
+  local milestone=0
+  for msg in "${msgs[@]}"; do
+    spin &
+    SPIN_PID=$!
+    sleep $(( $RANDOM % 3 + 2 ))
+    stop_spinner "✔ $msg"
+  done
+  echo "✔ Done!👍."
+}
+
+
 # Print a blank line
 print_blank() {
   echo ""

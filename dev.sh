@@ -151,7 +151,7 @@ cmd_clean() {
 }
 
 cmd_nuke() {
-  echo "⚠️  NUKE WARNING: This will remove ALL configuration and Docker resources!"
+  echo "⚠️  NUKE WARNING: This will remove ALL local configuration and Docker resources!"
   echo ""
   echo "This command will:"
   echo "  • Remove .env file"
@@ -189,43 +189,33 @@ cmd_nuke() {
   echo "To start fresh, run: ./dev.sh new"
 }
 
-cmd_help() {
-  print_fancy_box "dev.sh — Development & Deployment Helper" 70
-  print_blank
+cmd_nuke_server() {
+  load_env
+  echo "⚠️  NUKE WARNING: This will remove ALL server configuration and Docker resources!"
+  echo ""
+  echo "This command will:"
+  echo "  • Stop and remove all Docker containers, images, volumes"
+  echo ""
+  echo "Type 'nuke_server' to confirm (or anything else to cancel):"
+  read -r confirmation
+  if [ "$confirmation" != "nuke_server" ]; then
+    echo "✔ Nuke cancelled."
+    return 0
+  fi
 
-  print_section "Configure commands"
-  print_command "[e ] env" "Verify and load .env (CI prints info only)"
-  print_command "[n ] new" "Create a new .env file interactively"
-  print_command "[i ] init" "Generate docker-compose.yml from template"
-  print_command "[l ] login" "Run docker + EC2 checks"
-  print_blank
+  echo ""
+  echo "🔥 Nuking server..."
 
-  print_section "Development commands"
-  print_command "[u ] up" "Build images and start services"
-  print_command "[dn] down" "Stop services"
-  print_command "[b ] build" "Build Docker images without cache"
-  print_command "[a ] all" "Build, push, deploy in sequence"
-  print_blank
+  # Stop and remove Docker resources
+  ssh -vvv -i "${HOME}/.ssh/${EC2_KEY_NAME}" "ubuntu@${EC2_DEPLOY_HOST}" "docker ps -aq | xargs docker stop && docker ps -aq | xargs docker rm" >/dev/null 2>&1
 
-  print_section "EC2 commands"
-  print_command "[w ] web" "Print EC2 web address"
-  print_command "[ow] open-web" "Open EC2 application in browser"
-  print_command "[s ] ssh" "SSH into the EC2 instance"
-  print_command "[lg] logs" "Tail service logs on EC2"
-  print_command "[ec] ec2" "Verify EC2 SSH connectivity and env vars"
-  print_command "[y ] deploy" "Upload compose and start services on EC2"
-  print_blank
+  # Verify all containers removed
+  ssh -i "${HOME}/.ssh/${EC2_KEY_NAME}" "ubuntu@${EC2_DEPLOY_HOST}" "if [ -z \"\$(docker ps -aq)\" ]; then echo 'All containers removed.'; else echo 'Some containers remain!'; fi"
 
-  print_section "Docker Hub commands"
-  print_command "[dk] docker" "Authenticate Docker Hub credentials"
-  print_command "[p ] push" "Push Docker images to registry"
-  print_blank
+  # Remove generated files
 
-  print_section "Maintenance commands"
-  print_command "[c ] clean" "Remove containers, images, volumes; purge local data"
-  print_command "[x ] nuke" "Destroy .env, compose, Docker resources, data"
-  print_command "[h ] help" "Show this help message"
-  print_command "default" "No args runs 'up'"
+  echo "✔ Nuke complete. Server cleaned."
+  echo ""
 }
 
 cmd_new() {
@@ -334,11 +324,71 @@ install_completion() {
   echo "Run 'source $shell_rc' or restart your shell to enable it."
 }
 
+cmd_grade() {
+  grade_project
+  exit 0
+}
+
 cmd_all() {
   echo "Running all steps: build, push, deploy..."
   cmd_build
   cmd_push
   cmd_deploy
+}
+
+cmd_help() {
+  print_fancy_box "dev.sh — Development & Deployment Helper" 70
+  print_blank
+
+  print_section "Configure commands"
+  print_command "[e ] env" "Verify and load .env (CI prints info only)"
+  print_command "[n ] new" "Create a new .env file interactively"
+  print_command "[i ] init" "Generate docker-compose.yml from template"
+  print_command "[ln] login" "Run docker + EC2 checks"
+  print_blank
+
+  print_section "Development commands"
+  print_command "[u ] up" "Build images and start services"
+  print_command "[dn] down" "Stop services"
+  print_command "[b ] build" "Build Docker images without cache"
+  print_command "[a ] all" "Build, push, deploy in sequence"
+  print_blank
+
+  print_section "EC2 commands"
+  print_command "[w ] web" "Print EC2 web address"
+  print_command "[ow] open-web" "Open EC2 application in browser"
+  print_command "[s ] ssh" "SSH into the EC2 instance"
+  print_command "[lg] logs" "Tail service logs on EC2"
+  print_command "[ec] ec2" "Verify EC2 SSH connectivity and env vars"
+  print_command "[dy] deploy" "Upload compose and start services on EC2"
+  print_blank
+
+  print_section "Docker Hub commands"
+  print_command "[dk] docker" "Authenticate Docker Hub credentials"
+  print_command "[p ] push" "Push Docker images to registry"
+  print_blank
+
+  print_section "Maintenance commands"
+  print_command "[c ] clean" "Remove containers, images, volumes; purge local data"
+  print_command "[xl] nuke" "Destroy local .env, compose, Docker resources, data"
+  print_command "[xs] nuke-server" "Remove all deployed resources on EC2"
+  print_command "[h ] help" "Show this help message"
+  print_command "default" "No args runs 'up'"
+  print_blank
+
+  print_section "Grading"
+  print_command "[xx] grade-project" "Grade the project for TA review"
+  print_blank
+
+  print_section "Usage"
+  echo "  ./dev.sh [command ...]"
+  echo ""
+  echo "Examples:"
+  echo "  ./dev.sh new                # Create new .env file"
+  echo "  ./dev.sh login              # Verify Docker and EC2 connectivity"
+  echo "  ./dev.sh up                 # Build and start services"
+  echo "  ./dev.sh build push deploy  # Build, push, and deploy in sequence"
+  echo ""
 }
 
 # Dispatch
@@ -353,7 +403,7 @@ main() {
     case "$cmd" in
       new|n) cmd_new ;;
       env|e) cmd_env ;;
-      login|l) cmd_login ;;
+      login|ln) cmd_login ;;
       ssh|s) cmd_ssh ;;
       init|i) cmd_init ;;
       up|u) cmd_up ;;
@@ -362,13 +412,15 @@ main() {
       push|p) cmd_push ;;
       docker|dk) cmd_docker ;;
       ec2|ec) cmd_ec2 ;;
-      deploy|y) cmd_deploy ;;
+      deploy|dy) cmd_deploy ;;
       logs|lg) cmd_logs ;;
       web|w) cmd_web ;;
       open-web|ow) cmd_open_web ;;
       all|a) cmd_all ;;
       clean|c) cmd_clean ;;
-      nuke|x) cmd_nuke ;;
+      nuke|xl) cmd_nuke ;;
+      nuke-server|xs) cmd_nuke_server ;;
+      grade-project|xx) cmd_grade ;;
       help|h) cmd_help ;;
       *)
         echo "Unknown command: $cmd"
