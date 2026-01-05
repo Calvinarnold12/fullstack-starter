@@ -2,10 +2,20 @@
 
 This document provides instructions for working with the full-stack web
 application. Docker is not required for local development and testing, although
-it can be used if desired. This project has been fully tested and is supported on GitHub
-[CodeSpaces](https://github.com/features/codespaces). Fork the repository and
-create a new CodeSpace to get started quickly without needing to install any
-software locally.
+it can be used if desired. This project has been fully tested and is supported
+on GitHub [CodeSpaces](https://github.com/features/codespaces). Fork the
+repository and create a new CodeSpace to get started quickly without needing to
+install any software locally.
+
+## Prequisites
+
+Make sure you have the following installed on your development machine:
+
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- [VS Code](https://code.visualstudio.com/download)
+- [Node.js](https://nodejs.org/en/download) version 24 or higher
+
+## Getting Started
 
 The application is located in the `app` directory. All commands should be run
 from within this directory. Navigate to the `app` by running `cd app` from the
