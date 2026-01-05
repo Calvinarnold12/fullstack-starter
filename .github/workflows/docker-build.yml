@@ -26,18 +26,3 @@ jobs:
           chmod +x ./dev.sh
           ./dev.sh init
           ./dev.sh build
-
-  build-windows-images:
-    runs-on: windows-latest
-    env:
-      DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
-      APP_VERSION: ${{ vars.APP_VERSION }}
-      APP_NAME: ${{ vars.APP_NAME }}
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Build Docker image
-      run: |
-          chmod +x ./dev.sh
-          ./dev.sh init
-          ./dev.sh build
