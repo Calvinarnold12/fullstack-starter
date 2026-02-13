@@ -23,4 +23,9 @@ configuring, and deploying the application on an AWS EC2 instance.
  
 ## Team Workflow
 
-- Detail your teams workflow here.
+- **Team Members**: Calvin Arnold, Nathan Haustveit, Zach Johnston
+- **Workflow**: Single repository with collaborators - all team members have full push/pull access to the main repository
+- **Branch Strategy**: All team members commit directly to the main branch
+- **Communication**: Team members coordinate changes through git commits with clear, descriptive messages
+- **Testing**: Code changes are tested locally before being pushed to the repository
+- **CI/CD**: The automated CI/CD pipeline runs all tests on every push to main to ensure code quality and catch issues early
