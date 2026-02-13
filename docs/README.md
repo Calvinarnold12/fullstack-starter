@@ -11,15 +11,13 @@ configuring, and deploying the application on an AWS EC2 instance.
 ## Technology Stack
 
 - Backend technology stack
-    - Web Server: [nginx](https://www.nginx.com/) as a reverse proxy server
-    - Backend Runtime: [Node.js](https://nodejs.org/)
-    - Backend Framework: [Express](https://expressjs.com/)
+    - Backend Runtime: [Python](https://www.python.org/) 3.x
+    - Backend Framework: [Django](https://www.djangoproject.com/)
     - Database: [SQLite](https://www.sqlite.org/index.html) for lightweight data storage
 - Frontend technology stack
-    - Templates: [EJS](https://ejs.co/) for server-side rendering
-    - UX/UI: [Bootstrap](https://getbootstrap.com/) for responsive design
+    - Templates: [Django Templates](https://docs.djangoproject.com/en/stable/topics/templates/) for server-side rendering
 - Testing Frameworks
-    - End-to-End Testing: [Playwright](https://playwright.dev/)
+    - Unit Testing: [pytest](https://docs.pytest.org/) for Python testing
  
 ## Team Workflow
 
