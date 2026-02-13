@@ -20,3 +20,7 @@ configuring, and deploying the application on an AWS EC2 instance.
     - UX/UI: [Bootstrap](https://getbootstrap.com/) for responsive design
 - Testing Frameworks
     - End-to-End Testing: [Playwright](https://playwright.dev/)
+ 
+## Team Workflow
+
+- Detail your teams workflow here.
