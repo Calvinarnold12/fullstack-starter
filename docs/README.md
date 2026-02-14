@@ -21,7 +21,7 @@ configuring, and deploying the application on an AWS EC2 instance.
  
 ## Team Workflow
 
-- **Team Members**: Calvin Arnold, Nathan Haustveit, Zach Johnston
+- **Team Members**: Calvin Arnold, Nathan Haustveit, Zach Johnston 
 - **Workflow**: Single repository with collaborators - all team members have full push/pull access to the main repository
 - **Branch Strategy**: All team members commit directly to the main branch
 - **Communication**: Team members coordinate changes through git commits with clear, descriptive messages
