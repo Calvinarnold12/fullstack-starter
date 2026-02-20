@@ -1,21 +1,14 @@
 services:
-  app:
-    image: __DOCKER_USERNAME__/__APP_NAME__:__APP_VERSION__
+  django:
     build:
-      context: ./app
+      context: .
       dockerfile: Dockerfile
-    container_name: express-app
+    container_name: django-app
     restart: unless-stopped
-    environment:
-      - PORT=3000
-      - NODE_ENV=production
-      - INSIDE_DOCKER=true
-    volumes:
-      - ./data:/app/data
     networks:
       - app-network
     expose:
-      - "3000"
+      - "8000"
 
   nginx:
     image: __DOCKER_USERNAME__/__APP_NAME__-nginx:__APP_VERSION__
