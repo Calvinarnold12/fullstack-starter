@@ -6,7 +6,7 @@ def hello_world(request):
     View function that renders the Hello World page.
     Demonstrates a simple request/response cycle that can be debugged.
     """
-    import pdb; pdb.set_trace()  # Debugger breakpoint - execution pauses here
+    # import pdb; pdb.set_trace()  Debugger breakpoint - execution pauses here
     
     context = {
         'message': 'Hello World!',
