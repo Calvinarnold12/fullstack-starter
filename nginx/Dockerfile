@@ -1,12 +1,18 @@
-FROM nginx:latest
+FROM python:3.9
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY app_unavailable.html /usr/share/nginx/html/app_unavailable.html
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Validate nginx configuration
-RUN nginx -t
+# Set work directory
+WORKDIR /code
 
-EXPOSE 80 443
-RUN mkdir -p /etc/nginx/conf.d
+# Install dependencies
+COPY django-helloworld/requirements.txt /code/
+RUN pip install -r requirements.txt
 
-CMD ["nginx", "-g", "daemon off;"]
+# Copy project
+COPY django-helloworld /code/
+
+# Run the application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
