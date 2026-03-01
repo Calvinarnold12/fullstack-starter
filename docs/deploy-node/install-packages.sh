@@ -1,15 +1,15 @@
 #!/bin/bash
 # This script installs the necessary dependencies on an EC2 instance.
 sudo apt-get update
-sudo apt-get install -y nodejs npm
-sudo apt install curl build-essential libssl-dev -y
-sudo apt-get install -y nginx
+# Start a python virtual environment (.venv)
+# Note: Linux based systems use python heavily and a virtual environment protects the system's packages
+sudo python -m venv app-env
+# Opens and activates virtual environment (venv)
+sudo source app-env/bin/activate
+# Pip package installer (Should be in the venv)
+sudo python -m ensurepip --upgrade
+# Install Django
+sudo python -m pip install Django
 
-
-# Install pm2 to manage the Node.js application
-sudo npm install -g pm2
-
-# Install node version manager (nvm) and use it to install a specific Node.js version
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-
-echo "Installation script completed. You MUST exit and re-login to refresh your environment for nvm to work."
+# Apparently this method shouldn't need a refresh
+echo "Installation script completed."
