@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import PlayerProfile
 from .forms import UserLoginForm
+from .forms import UserRegistrationForm
 
 # --- NEW: Serve the root index.html ---
 def index_view(request):
@@ -15,14 +16,14 @@ def hello_world(request):
 def register_view(request):
     # ... (Keep your existing register code here)
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
             PlayerProfile.objects.create(user=user)
             login(request, user)
             return redirect('hello')
     else:
-        form = UserCreationForm()
+        form = UserRegistrationForm()
     return render(request, "hello/register.html", {"form": form})
 
 def login_view(request):

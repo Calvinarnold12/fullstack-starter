@@ -21,7 +21,7 @@
             align-content: center;
             align-items: center;
             justify-content: center;
-            display: flow-root;
+            display: -ms-flexbox;
         }
 
         .logo-md {
@@ -49,6 +49,11 @@
             justify-self: center;
         }
 
+        @media (max-width: 1500px) {
+            .login-box {
+                width: 80%;
+            }
+        }
     </style>
 </head>
 <body>
