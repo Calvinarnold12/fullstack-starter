@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 from .models import PlayerProfile
+from .forms import UserLoginForm
 
 # --- NEW: Serve the root index.html ---
 def index_view(request):
@@ -27,11 +28,11 @@ def register_view(request):
 def login_view(request):
     # ... (Keep your existing login code here)
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
             return redirect('hello')
     else:
-        form = AuthenticationForm()
+        form = UserLoginForm()
     return render(request, "hello/login.html", {"form": form})
