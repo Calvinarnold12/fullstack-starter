@@ -94,6 +94,8 @@ cmd_init() {
 cmd_up() {
   load_env
   docker compose up --build
+  docker compose exec -T django python manage.py migrate
+  
 }
 
 cmd_down() {
