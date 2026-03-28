@@ -45,8 +45,8 @@ jobs:
         pip install -r requirements.txt
     - name: Load tables
       run: |
-        python django-helloworld/manage.py makemigrations
-        python django-helloworld/manage.py migrate
+        python manage.py makemigrations
+        python manage.py migrate
     - name: Run Django tests with pytest
       run: pytest
 
