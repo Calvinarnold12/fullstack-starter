@@ -16,9 +16,9 @@ class TestHelloWorldView:
         assert response.status_code == 200
     
     def test_hello_world_view_contains_message(self):
-        """Test that the response contains the 'Hello World!' message"""
+        """Test that the response contains the 'Welcome to our CS 408 Project!' message"""
         response = self.client.get('/')
-        assert 'Hello World!' in response.content.decode()
+        assert 'Welcome to our CS 408 Project!' in response.content.decode()
     
     def test_hello_world_view_uses_correct_template(self):
         """Test that the view uses the correct template"""
@@ -34,4 +34,4 @@ class TestHelloWorldView:
         """Test that context contains the message variable"""
         response = self.client.get('/')
         assert 'message' in response.context
-        assert response.context['message'] == 'Hello World!'
+        assert response.context['message'] == 'Welcome to our CS 408 Project!'
