@@ -17,13 +17,25 @@
             align-content: center;
         }
 
+        .logo-md {
+            margin-top: 100px;
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        img {
+            align-content: center;
+        }
+
     </style>
 </head>
 <body>
+    <div class="logo-md">
+        {%  load static %}
+        <img src="{% static 'tempLogo.jpg' %}" class="img-fluid">
+    </div>
     <div class="login-box">
-        <p aria-hidden="true">
-            <span class="placeholder col-6"></span>
-        </p>
         <h2>Login</h2>
         <form method="POST">
             {% csrf_token %}
