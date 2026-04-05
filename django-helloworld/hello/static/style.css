@@ -1,0 +1,28 @@
+.solitaire-board {
+    background-color: #277714; /* Classic Casino Green */
+    padding: 20px;
+    min-height: 80vh;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.top-row, .tableau-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 equal columns */
+    gap: 15px;
+}
+
+.spacer {
+    grid-column: span 1; /* Creates the empty gap between Waste and Foundations */
+}
+
+/* Base style for where cards will go */
+.pile {
+    width: 100px;
+    height: 140px;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    position: relative; /* Crucial for stacking cards later! */
+}
