@@ -37,3 +37,7 @@ def login_view(request):
     else:
         form = UserLoginForm()
     return render(request, "hello/login.html", {"form": form})
+
+
+def tic_tac_toe_view(request):
+    return render(request, "hello/tic_tac_toe.html")
