@@ -1,4 +1,5 @@
-{% load static %} <!DOCTYPE html>
+{% load static %}
+<!DOCTYPE html>
 <html>
 <head>
     <title>Solitaire Hub</title>
@@ -13,6 +14,10 @@
         <p>
             <a href="{% url 'logout' %}" class="btn btn-danger">Log Out</a>
         </p>
+
+        <hr>
+        {% include 'hello/game.html' %} 
+
     {% else %}
         <p>You are not logged in.</p>
         <p>
@@ -21,5 +26,6 @@
         </p>
     {% endif %}
 
+    <script src="{% static 'solitaire.js' %}"></script>
 </body>
 </html>
