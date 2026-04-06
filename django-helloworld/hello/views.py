@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import PlayerProfile
 from .forms import UserLoginForm
 from .forms import UserRegistrationForm
+from .games import tic_tac_toe
 
 # --- NEW: Serve the root index.html ---
 def index_view(request):
