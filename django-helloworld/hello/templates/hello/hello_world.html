@@ -1,7 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Solitaire Hub</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}"> 
 </head>
 <body>
     <h1>Welcome to Polymorphic Solitaire!</h1>
@@ -9,12 +11,21 @@
     {% if user.is_authenticated %}
         <h2>Welcome back, {{ user.username }}!</h2>
         <p>Ready to play?</p>
-        {% else %}
+        <p>
+            <a href="{% url 'logout' %}" class="btn btn-danger">Log Out</a>
+        </p>
+
+        <hr>
+        {% include 'hello/game.html' %} 
+
+    {% else %}
         <p>You are not logged in.</p>
         <p>
             <a href="{% url 'login' %}">Log In</a> | 
             <a href="{% url 'register' %}">Register</a>
         </p>
     {% endif %}
+
+    <script src="{% static 'solitaire.js' %}"></script>
 </body>
 </html>

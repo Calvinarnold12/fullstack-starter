@@ -9,4 +9,5 @@ urlpatterns = [
     path('hello/register/', views.register_view, name='register'),# http://35.90.198.162/hello/register/
     path('hello/login/', views.login_view, name='login'),         # http://35.90.198.162/hello/login/
     path('hello/tic_tac_toe', views.tic_tac_toe_view, name='tic_tac_toe'),  # http://35.90.198.162/hello/tic_tac_toe
+    path('hello/logout/', views.logout_view, name='logout'),      # http://35.90.198.162/hello/logout/
 ]

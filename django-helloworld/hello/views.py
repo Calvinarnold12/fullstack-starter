@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .models import PlayerProfile
 from .forms import UserLoginForm
@@ -42,3 +42,6 @@ def login_view(request):
 
 def tic_tac_toe_view(request):
     return render(request, "hello/tic_tac_toe.html")
+def logout_view(request):
+    logout(request) # This destroys the session
+    return redirect('hello')
