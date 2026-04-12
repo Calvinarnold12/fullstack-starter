@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import PlayerProfile
 from .forms import UserLoginForm
 from .forms import UserRegistrationForm
+from .games import tic_tac_toe
 
 # --- NEW: Serve the root index.html ---
 def index_view(request):
@@ -37,6 +38,10 @@ def login_view(request):
     else:
         form = UserLoginForm()
     return render(request, "hello/login.html", {"form": form})
+
+
+def tic_tac_toe_view(request):
+    return render(request, "hello/tic_tac_toe.html")
 def logout_view(request):
     logout(request) # This destroys the session
     return redirect('hello')
