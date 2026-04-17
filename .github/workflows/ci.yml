@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" , "game-select-page"]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" , "game-select-page"]
   workflow_call:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

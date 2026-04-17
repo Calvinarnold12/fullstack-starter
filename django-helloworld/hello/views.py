@@ -6,13 +6,16 @@ from .forms import UserLoginForm
 from .forms import UserRegistrationForm
 from .games import tic_tac_toe
 
+
 # --- NEW: Serve the root index.html ---
 def index_view(request):
     return render(request, "hello/index.html", {"message": "Welcome to our CS 408 Project!"})
 
+
 # --- Existing Views ---
 def hello_world(request):
     return render(request, "hello/hello_world.html")
+
 
 def register_view(request):
     # ... (Keep your existing register code here)
@@ -26,6 +29,7 @@ def register_view(request):
     else:
         form = UserRegistrationForm()
     return render(request, "hello/register.html", {"form": form})
+
 
 def login_view(request):
     # ... (Keep your existing login code here)
@@ -42,6 +46,12 @@ def login_view(request):
 
 def tic_tac_toe_view(request):
     return render(request, "hello/tic_tac_toe.html")
+
+
 def logout_view(request):
-    logout(request) # This destroys the session
+    logout(request)  # This destroys the session
     return redirect('hello')
+
+
+def game_directory_view(request):
+    return render(request, "hello/game_directory.html")
