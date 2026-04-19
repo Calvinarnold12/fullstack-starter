@@ -154,9 +154,44 @@ function dragDrop(e) {
     const targetCard = findTopCard(destination);
     if (isValidMove(draggedCard, destinationType, targetCard)) {
         draggedCards.forEach(card => destination.appendChild(card));
+        revealNextFaceDownCard(originalParent);
     } else {
         invalidMove();
     }
+}
+
+function revealNextFaceDownCard(pile) {
+    if (!pile || pile.dataset.pileType !== 'tableau') {
+        return;
+    }
+
+    const cards = Array.from(pile.querySelectorAll('.card'));
+    if (!cards.length) {
+        return;
+    }
+
+    const lastCard = cards[cards.length - 1];
+    if (lastCard.dataset.faceUp === 'false' || lastCard.classList.contains('face-down')) {
+        lastCard.dataset.faceUp = 'true';
+        lastCard.draggable = true;
+        lastCard.classList.remove('face-down');
+        lastCard.textContent = `${getRankDisplay(lastCard.dataset.rank)} ${getSuitSymbol(lastCard.dataset.suit)}`;
+        initializeDragAndDrop();
+    }
+}
+
+function getRankDisplay(rank) {
+    const parsed = parseInt(rank, 10);
+    return {1: 'A', 11: 'J', 12: 'Q', 13: 'K'}[parsed] || String(parsed);
+}
+
+function getSuitSymbol(suit) {
+    return {
+        'Hearts': '♥',
+        'Diamonds': '♦',
+        'Clubs': '♣',
+        'Spades': '♠'
+    }[suit] || suit;
 }
 
 function getDropDestination(target) {

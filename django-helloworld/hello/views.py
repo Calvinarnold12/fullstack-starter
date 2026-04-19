@@ -26,7 +26,7 @@ def register_view(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            PlayerProfile.objects.create(user=user)
+            PlayerProfile.objects.get_or_create(user=user)
             login(request, user)
             return redirect('hello')
     else:

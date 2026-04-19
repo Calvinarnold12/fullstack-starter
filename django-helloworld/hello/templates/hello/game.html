@@ -17,7 +17,9 @@
                 {% for card in game.waste %}
                     <div class="card {{ card.color|lower }}" draggable="true"
                          data-rank="{{ card.rank }}"
+                         data-rank-display="{{ card.rank_display }}"
                          data-suit="{{ card.suit }}"
+                         data-suit-symbol="{{ card.suit_symbol }}"
                          data-color="{{ card.color|lower }}"
                          data-face-up="true">
                         {{ card.rank_display }} {{ card.suit_symbol }}
@@ -34,7 +36,9 @@
                     {% with foundation|last as top_card %}
                         <div class="card {{ top_card.color|lower }}" draggable="true"
                              data-rank="{{ top_card.rank }}"
+                             data-rank-display="{{ top_card.rank_display }}"
                              data-suit="{{ top_card.suit }}"
+                             data-suit-symbol="{{ top_card.suit_symbol }}"
                              data-color="{{ top_card.color|lower }}"
                              data-face-up="true">
                             {{ top_card.rank_display }} {{ top_card.suit_symbol }}
@@ -59,7 +63,9 @@
                         <div class="card {{ card.color|lower }}{% if not card.is_face_up %} face-down{% endif %}"
                              {% if card.is_face_up %}draggable="true"{% endif %}
                              data-rank="{{ card.rank }}"
+                             data-rank-display="{{ card.rank_display }}"
                              data-suit="{{ card.suit }}"
+                             data-suit-symbol="{{ card.suit_symbol }}"
                              data-color="{{ card.color|lower }}"
                              data-face-up="{{ card.is_face_up|yesno:'true,false' }}">
                             {% if card.is_face_up %}
