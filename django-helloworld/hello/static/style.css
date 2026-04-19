@@ -80,10 +80,12 @@
 
 .card.red {
     color: #b91c1c;
+    border-color: #b91c1c;
 }
 
 .card.black {
     color: #111111;
+    border-color: #111111;
 }
 
 .card.card-back {

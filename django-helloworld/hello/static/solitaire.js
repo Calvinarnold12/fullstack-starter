@@ -92,6 +92,11 @@ let originalParent = null;
 
 // --- CARD DRAG FUNCTIONS ---
 function dragStart(e) {
+    if (this.dataset.faceUp !== 'true' || this.classList.contains('face-down')) {
+        e.preventDefault();
+        return;
+    }
+
     draggedCard = this;
     originalParent = this.parentElement;
     draggedCards = [this];
@@ -210,6 +215,10 @@ function findTopCard(pile) {
 }
 
 function isValidMove(card, destinationType, topCard) {
+    if (!card || card.dataset.faceUp !== 'true') {
+        return false;
+    }
+
     const cardRank = parseInt(card.dataset.rank, 10);
     const cardSuit = card.dataset.suit;
     const cardColor = card.dataset.color;
