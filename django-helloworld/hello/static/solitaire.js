@@ -68,11 +68,17 @@ function initializeDragAndDrop() {
     const piles = document.querySelectorAll('.pile');
 
     cards.forEach(card => {
+        card.removeEventListener('dragstart', dragStart);
+        card.removeEventListener('dragend', dragEnd);
         card.addEventListener('dragstart', dragStart);
         card.addEventListener('dragend', dragEnd);
     });
 
     piles.forEach(pile => {
+        pile.removeEventListener('dragover', dragOver);
+        pile.removeEventListener('dragenter', dragEnter);
+        pile.removeEventListener('dragleave', dragLeave);
+        pile.removeEventListener('drop', dragDrop);
         pile.addEventListener('dragover', dragOver);
         pile.addEventListener('dragenter', dragEnter);
         pile.addEventListener('dragleave', dragLeave);
@@ -89,6 +95,8 @@ function dragStart(e) {
     draggedCard = this;
     originalParent = this.parentElement;
     draggedCards = [this];
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', 'solitaire-card');
 
     let nextSibling = this.nextElementSibling;
     while (nextSibling && nextSibling.classList.contains('card')) {
@@ -108,37 +116,57 @@ function dragEnd(e) {
 // --- PILE DROP FUNCTIONS ---
 function dragOver(e) {
     e.preventDefault(); // REQUIRED to allow dropping!
+    if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = 'move';
+    }
 }
 
 function dragEnter(e) {
     e.preventDefault();
-    this.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'; // Highlight pile when hovering
+    const destination = getDropDestination(e.target);
+    if (destination) {
+        destination.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+    }
 }
 
 function dragLeave(e) {
-    this.style.backgroundColor = 'transparent'; // Remove highlight
+    const destination = getDropDestination(e.target);
+    if (destination) {
+        destination.style.backgroundColor = 'transparent';
+    }
 }
 
 function dragDrop(e) {
     e.preventDefault();
-    this.style.backgroundColor = 'transparent';
-
-    if (!draggedCard) {
+    const destination = getDropDestination(e.target);
+    if (!destination) {
+        invalidMove();
         return;
     }
+    destination.style.backgroundColor = 'transparent';
 
-    const destinationType = this.dataset.pileType;
-    if (!destinationType || destinationType === 'stock' || destinationType === 'waste') {
+    const destinationType = destination.dataset.pileType;
+    if (!draggedCard || !destinationType || destinationType === 'stock' || destinationType === 'waste') {
         invalidMove();
         return;
     }
 
-    const targetCard = findTopCard(this);
+    const targetCard = findTopCard(destination);
     if (isValidMove(draggedCard, destinationType, targetCard)) {
-        draggedCards.forEach(card => this.appendChild(card));
+        draggedCards.forEach(card => destination.appendChild(card));
     } else {
         invalidMove();
     }
+}
+
+function getDropDestination(target) {
+    if (!target) {
+        return null;
+    }
+    if (target.classList.contains('pile')) {
+        return target;
+    }
+    return target.closest('.pile');
 }
 
 function findTopCard(pile) {
@@ -152,6 +180,9 @@ function isValidMove(card, destinationType, topCard) {
     const cardColor = card.dataset.color;
 
     if (destinationType === 'foundation') {
+        if (draggedCards.length > 1) {
+            return false; // only single cards may move to the foundation
+        }
         if (!topCard) {
             return cardRank === 1;
         }
