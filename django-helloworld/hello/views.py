@@ -5,6 +5,7 @@ from .models import PlayerProfile
 from .forms import UserLoginForm
 from .forms import UserRegistrationForm
 from .games import tic_tac_toe
+from .games.klondike import Klondike
 
 # --- NEW: Serve the root index.html ---
 def index_view(request):
@@ -12,7 +13,12 @@ def index_view(request):
 
 # --- Existing Views ---
 def hello_world(request):
-    return render(request, "hello/hello_world.html")
+    game = None
+    if request.user.is_authenticated:
+        solitaire = Klondike()
+        solitaire.setup_board()
+        game = solitaire.to_dict()
+    return render(request, "hello/hello_world.html", {"game": game})
 
 def register_view(request):
     # ... (Keep your existing register code here)

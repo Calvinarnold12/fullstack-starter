@@ -1,26 +1,78 @@
+{% load static %}
+{% if game %}
+    {{ game|json_script:"solitaire-data" }}
+{% endif %}
 <div class="solitaire-board"> 
     <div class="top-row"> 
-        <div class="pile stock" id="stock-pile">
-            <div class="card" draggable="true" style="color: black;">♠ A</div>
-            <div class="card" draggable="true" style="color: red;">♥ K</div>
+        <div class="pile stock" id="stock-pile" data-pile-type="stock">
+            {% if game.stock_count > 0 %}
+                <div class="card card-back" data-face-up="false"></div>
+                <div class="stock-count">{{ game.stock_count }}</div>
+            {% else %}
+                <div class="empty-card">No Stock</div>
+            {% endif %}
         </div> 
-        <div class="pile waste" id="waste-pile"></div> 
+        <div class="pile waste" id="waste-pile" data-pile-type="waste">
+            {% if game.waste %}
+                {% for card in game.waste %}
+                    <div class="card {{ card.color|lower }}" draggable="true"
+                         data-rank="{{ card.rank }}"
+                         data-suit="{{ card.suit }}"
+                         data-color="{{ card.color|lower }}"
+                         data-face-up="true">
+                        {{ card.rank_display }} {{ card.suit_symbol }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-card">Waste</div>
+            {% endif %}
+        </div> 
         <div class="spacer"></div> 
-        <div class="pile foundation" id="foundation-hearts"></div> 
-        <div class="pile foundation" id="foundation-diamonds"></div> 
-        <div class="pile foundation" id="foundation-clubs"></div> 
-        <div class="pile foundation" id="foundation-spades"></div> 
+        {% for foundation in game.foundations %}
+            <div class="pile foundation" data-pile-type="foundation">
+                {% if foundation %}
+                    {% with foundation|last as top_card %}
+                        <div class="card {{ top_card.color|lower }}" draggable="true"
+                             data-rank="{{ top_card.rank }}"
+                             data-suit="{{ top_card.suit }}"
+                             data-color="{{ top_card.color|lower }}"
+                             data-face-up="true">
+                            {{ top_card.rank_display }} {{ top_card.suit_symbol }}
+                        </div>
+                    {% endwith %}
+                {% else %}
+                    <div class="empty-card">Foundation</div>
+                {% endif %}
+            </div>
+        {% endfor %}
     </div> 
+    <div class="action-row mb-3">
+        <button id="draw-button" class="btn btn-primary">Draw Card</button>
+        <span id="stock-status" class="badge bg-light text-dark">Stock: {{ game.stock_count }}</span>
+    </div>
     
     <div class="tableau-row"> 
-        <div class="pile tableau" id="tableau-1">
-            <div class="card" draggable="true" style="color: red;">♦ Q</div>
-        </div> 
-        <div class="pile tableau" id="tableau-2"></div> 
-        <div class="pile tableau" id="tableau-3"></div> 
-        <div class="pile tableau" id="tableau-4"></div> 
-        <div class="pile tableau" id="tableau-5"></div> 
-        <div class="pile tableau" id="tableau-6"></div> 
-        <div class="pile tableau" id="tableau-7"></div> 
+        {% for tableau in game.tableaus %}
+            <div class="pile tableau" id="tableau-{{ forloop.counter }}" data-pile-type="tableau">
+                {% if tableau %}
+                    {% for card in tableau %}
+                        <div class="card {{ card.color|lower }}{% if not card.is_face_up %} face-down{% endif %}"
+                             {% if card.is_face_up %}draggable="true"{% endif %}
+                             data-rank="{{ card.rank }}"
+                             data-suit="{{ card.suit }}"
+                             data-color="{{ card.color|lower }}"
+                             data-face-up="{{ card.is_face_up|yesno:'true,false' }}">
+                            {% if card.is_face_up %}
+                                {{ card.rank_display }} {{ card.suit_symbol }}
+                            {% else %}
+                                <span class="card-back">🂠</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-card">Empty</div>
+                {% endif %}
+            </div> 
+        {% endfor %}
     </div> 
 </div>
