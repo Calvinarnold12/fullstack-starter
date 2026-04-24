@@ -20,7 +20,7 @@ def hello_world(request):
         solitaire = Klondike()
         solitaire.setup_board()
         game = solitaire.to_dict()
-    return render(request, "hello/hello_world.html", {"game": game})
+    return render(request, "hello/Solitaire.html", {"game": game})
 
 
 def register_view(request):
