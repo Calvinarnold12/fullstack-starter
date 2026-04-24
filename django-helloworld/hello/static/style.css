@@ -122,3 +122,10 @@
     gap: 12px;
     margin-bottom: 20px;
 }
+
+.game-page-title {
+    display: inline-block;
+    padding-top: 20px;
+    width: 100%;
+    text-align: center;
+}
