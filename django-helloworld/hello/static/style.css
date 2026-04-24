@@ -40,11 +40,92 @@
     font-weight: bold;
     cursor: grab;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-    position: absolute; /* Keeps them neatly inside the pile */
+    position: relative;
+}
+
+.pile.tableau {
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 8px;
+}
+
+.pile.tableau .card {
+    margin-top: -110px;
+}
+
+.pile.tableau .card:first-child {
+    margin-top: 0;
+}
+
+.pile.stock, .pile.waste, .pile.foundation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* What happens when you pick a card up */
 .card.dragging {
     opacity: 0.5;
     cursor: grabbing;
+}
+
+.card.face-down {
+    background-color: #1f2937;
+    color: transparent;
+    border-color: #374151;
+}
+
+.card.red {
+    color: #b91c1c;
+    border-color: #b91c1c;
+}
+
+.card.black {
+    color: #111111;
+    border-color: #111111;
+}
+
+.card.card-back {
+    background-color: #111827;
+    color: white;
+    font-size: 28px;
+}
+
+.stock-count {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    color: #111;
+}
+
+.empty-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.game-page-title {
+    display: inline-block;
+    padding-top: 20px;
+    width: 100%;
+    text-align: center;
 }
