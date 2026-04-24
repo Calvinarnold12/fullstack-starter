@@ -7,9 +7,11 @@ from .forms import UserRegistrationForm
 from .games import tic_tac_toe
 from .games.klondike import Klondike
 
+
 # --- NEW: Serve the root index.html ---
 def index_view(request):
     return render(request, "hello/index.html", {"message": "Welcome to our CS 408 Project!"})
+
 
 # --- Existing Views ---
 def hello_world(request):
@@ -18,7 +20,8 @@ def hello_world(request):
         solitaire = Klondike()
         solitaire.setup_board()
         game = solitaire.to_dict()
-    return render(request, "hello/hello_world.html", {"game": game})
+    return render(request, "hello/Solitaire.html", {"game": game})
+
 
 def register_view(request):
     # ... (Keep your existing register code here)
@@ -32,6 +35,7 @@ def register_view(request):
     else:
         form = UserRegistrationForm()
     return render(request, "hello/register.html", {"form": form})
+
 
 def login_view(request):
     # ... (Keep your existing login code here)
@@ -48,6 +52,12 @@ def login_view(request):
 
 def tic_tac_toe_view(request):
     return render(request, "hello/tic_tac_toe.html")
+
+
 def logout_view(request):
-    logout(request) # This destroys the session
+    logout(request)  # This destroys the session
     return redirect('hello')
+
+
+def game_directory_view(request):
+    return render(request, "hello/game_directory.html")

@@ -125,7 +125,8 @@
 
 .game-page-title {
     display: inline-block;
-    padding-top: 20px;
+    padding-top: 50px;
     width: 100%;
     text-align: center;
+    color: #EBEDED;
 }
