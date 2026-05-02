@@ -28,7 +28,7 @@ def play_game(request, variant_name):
         variant = GameVariant.objects.get(name__iexact=variant_name)
     except GameVariant.DoesNotExist:
         variant = GameVariant.objects.create(name=variant_name.capitalize())
-    
+
     if variant_name.lower() == 'klondike':
         game_obj = Klondike()
     elif variant_name.lower() == 'spider':
@@ -37,12 +37,12 @@ def play_game(request, variant_name):
         game_obj = FreeCell()
     else:
         return redirect('game_directory')
-    
+
     game_obj.setup_board()
     game = game_obj.to_dict()
-    
+
     session = GameSession.objects.create(player=request.user, game_variant=variant)
-    
+
     return render(request, "hello/Solitaire.html", {
         'game': game,
         'variant': variant,
@@ -61,6 +61,7 @@ def register_view(request):
         form = UserRegistrationForm()
     return render(request, "hello/register.html", {"form": form})
 
+
 def login_view(request):
     if request.method == "POST":
         form = UserLoginForm(request, data=request.POST)
@@ -72,9 +73,11 @@ def login_view(request):
         form = UserLoginForm()
     return render(request, "hello/login.html", {"form": form})
 
+
 def logout_view(request):
-    logout(request)
-    return redirect('index')
+    logout(request)  # This destroys the session
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
 
 def tic_tac_toe_view(request):
     return render(request, "hello/tic_tac_toe.html")
